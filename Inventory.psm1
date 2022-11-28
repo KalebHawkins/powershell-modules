@@ -211,6 +211,17 @@ function Get-InventoryData {
     process {
         
         $HostInventory | Export-Excel $FileName -Worksheet "HostInventory" -TableName "HostInventory"
+
+        $HostInventory | 
+            Group-Object Parent |
+            ForEach-Object {
+                $_ | 
+                    Select-Object Name,
+                        @{l='ClusterResourceThreshold%';e={ 100 - ((($_.Group.CpuTotalMhz | Measure-Object -Sum | Select-Object -ExpandProperty Sum) / $_.Count) / ($_.Group.CpuTotalMhz | Measure-Object -Sum | Select-Object -ExpandProperty Sum) * 100) }},
+                        @{l='ClusterCpuConsumption%';e={ (($_.Group.CpuUsageMhz | Measure-Object -Sum | Select-Object -ExpandProperty Sum) / ($_.Group.CpuTotalMhz | Measure-Object -Sum | Select-Object -ExpandProperty Sum) * 100) }},
+                        @{l='ClusterMemoryConsumption%';e={ (($_.Group.MemoryUsageGb | Measure-Object -Sum | Select-Object -ExpandProperty Sum) / ($_.Group.MemoryTotalGb | Measure-Object -Sum | Select-Object -ExpandProperty Sum) * 100) }}
+            } | Export-Excel $FileName -Worksheet "ClusterResourceThresholds" -TableName "ClusterResourceThresholds"
+
         $HostInfo | Export-Excel $FileName -Worksheet "HostInfo" -TableName "HostInfo"
         $HostCpuOvercommit | Export-Excel $FileName -Worksheet "HostCpuOvercommit" -TableName "HostCpuOvercommit"
         $HostMemoryOvercommit | Export-Excel $FileName -Worksheet "HostMemoryOvercommit" -TableName "HostMemoryOvercommit"
