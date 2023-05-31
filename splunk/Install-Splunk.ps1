@@ -5,7 +5,7 @@ Function Install-Splunk {
 .DESCRIPTION
     Install the Splunk Universal forwarder. 
 .EXAMPLE
-    Install-Splunk.ps1 -ComputerName Comp1,Comp2,Comp3 -Installer C:\Path\To\Installer.msi -SplunkUsername user -SplunkPassword pass -DeploymentServer SplunkDeploy.domain.com:8089
+    Install-Splunk -ComputerName Comp1,Comp2,Comp3 -Installer C:\Path\To\Installer.msi -SplunkUsername user -SplunkPassword pass -DeploymentServer SplunkDeploy.domain.com:8089
 #>
     [CmdletBinding()]
     param (
