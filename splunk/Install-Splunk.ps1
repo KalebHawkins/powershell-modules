@@ -10,21 +10,15 @@ Function Install-Splunk {
     [CmdletBinding()]
     param (
         [Parameter(ValueFromPipeline)]
-        [ParameterType]
         [string[]]$ComputerName,
         [Parameter()]
-        [ParameterType]
         [string]$Installer,
         [Parameter()]
-        [ParameterType]
         [string]$SplunkUsername,
         [Parameter()]
-        [ParameterType]
         [string]$SplunkPass,
         [Parameter()]
-        [ParameterType]
         [string]$DeploymentServer
-        
     )
     
     begin {}
